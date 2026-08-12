@@ -1,0 +1,24 @@
+experiment:
+  name: baseline_v1_mass_sweep
+  seed: 42
+
+robot:
+  name: Unitree H1
+  task: Isaac-Velocity-Flat-H1-v0
+
+policy:
+  checkpoint: baseline_checkpoints/baseline_v1.pt
+
+evaluation:
+  num_envs: 64
+  episodes: 100
+  headless: true
+
+sweep:
+  mass_scale:
+    - 0.6
+    - 0.8
+    - 1.0
+    - 1.2
+    - 1.4
+    - 1.6

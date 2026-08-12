@@ -1,0 +1,56 @@
+experiment:
+  name: baseline_v1_multiseed_robustness
+
+seeds:
+  - 42
+  - 123
+  - 456
+  - 789
+  - 2026
+
+robot:
+  name: Unitree H1
+  task: Isaac-Velocity-Flat-H1-v0
+
+policy:
+  checkpoint: baseline_checkpoints/baseline_v1.pt
+
+evaluation:
+  num_envs: 64
+  episodes: 100
+  headless: true
+
+scenarios:
+
+  - name: nominal
+    physics_modifications: none
+
+  - name: friction_0_4_0_3
+    physics_modifications:
+      friction:
+        static: 0.4
+        dynamic: 0.3
+
+  - name: friction_0_3_0_2
+    physics_modifications:
+      friction:
+        static: 0.3
+        dynamic: 0.2
+
+  - name: friction_0_2_0_15
+    physics_modifications:
+      friction:
+        static: 0.2
+        dynamic: 0.15
+
+  - name: mass_1_2x
+    physics_modifications:
+      mass_scale: 1.2
+
+  - name: mass_1_4x
+    physics_modifications:
+      mass_scale: 1.4
+
+  - name: mass_1_6x
+    physics_modifications:
+      mass_scale: 1.6

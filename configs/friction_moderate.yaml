@@ -1,0 +1,33 @@
+experiment:
+  name: baseline_v1_friction_moderate
+  seed: 42
+
+robot:
+  name: Unitree H1
+  task: Isaac-Velocity-Flat-H1-v0
+
+policy:
+  checkpoint: baseline_checkpoints/baseline_v1.pt
+
+evaluation:
+  num_envs: 64
+  episodes: 100
+  headless: true
+
+scenario:
+  name: friction_moderate
+  physics_modifications:
+    friction:
+      static: 0.6
+      dynamic: 0.4
+
+metrics:
+  success_rate: true
+  fall_rate: true
+  velocity_tracking_rmse: true
+  episode_length: true
+  base_orientation_error: true
+  joint_limit_violations: true
+
+output:
+  directory: reports/baseline_v1_friction_moderate

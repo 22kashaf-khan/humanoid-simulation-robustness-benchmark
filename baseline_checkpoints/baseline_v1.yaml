@@ -1,0 +1,35 @@
+name: baseline_v1
+robot: Unitree H1
+task: Isaac-Velocity-Flat-H1-v0
+algorithm: PPO
+framework: RSL-RL
+
+versions:
+  isaac_lab: v2.3.2-dirty
+  rsl_rl: 3.1.2
+
+training:
+  num_envs: 1024
+  max_iterations: 1500
+  total_timesteps: 36864000
+  seed: 42
+  headless: true
+
+simulation:
+  physics_dt: 0.005
+  environment_dt: 0.02
+
+final_metrics:
+  mean_reward: 30.96
+  mean_episode_length: 993.30
+  mean_action_noise_std: 0.47
+  value_function_loss: 0.0030
+  surrogate_loss: -0.0019
+  throughput_steps_per_second: 25577
+  training_time_seconds: 1656.47
+
+source_checkpoint:
+  path: C:\IsaacStack\IsaacLab\logs\rsl_rl\h1_flat\2026-08-12_04-38-34\model_1499.pt
+
+frozen_checkpoint:
+  file: baseline_v1.pt

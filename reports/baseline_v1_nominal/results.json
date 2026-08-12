@@ -1,0 +1,43 @@
+{
+  "experiment": "baseline_v1_nominal",
+  "scenario": "nominal",
+  "physics_modifications": "none",
+  "robot": "Unitree H1",
+  "task": "Isaac-Velocity-Flat-H1-v0",
+  "checkpoint": "C:\\Projects\\Humanoid-Benchmark\\baseline_checkpoints\\baseline_v1.pt",
+  "seed": 42,
+  "num_envs": 64,
+  "target_episodes": 100,
+  "completed_episodes": 100,
+  "evaluation_protocol": {
+    "success_criterion": "survival_to_timeout",
+    "success_definition": "Episode reaches the configured time limit without early termination.",
+    "failure_definition": "Episode terminates before the configured time limit."
+  },
+  "execution": {
+    "vector_steps": 2000,
+    "environment_transitions": 128000,
+    "environment_transitions_definition": "vector_steps multiplied by num_envs; includes all simulated environments executed while collecting the requested benchmark episodes."
+  },
+  "metrics": {
+    "successes": 100,
+    "falls": 0,
+    "success_rate": 1.0,
+    "fall_rate": 0.0,
+    "mean_episode_length": 1000.0,
+    "linear_velocity_rmse_mps": 0.08073582423825057,
+    "yaw_velocity_rmse_radps": 0.13950066154077012,
+    "mean_base_tilt_degrees": 2.99460640625,
+    "joint_limit_violation_rate": 0.0009789473684210525,
+    "joint_limit_violation_count": 1860,
+    "joint_limit_observation_count": 1900000
+  },
+  "metric_definitions": {
+    "success_rate": "Fraction of counted benchmark episodes that survived until normal timeout.",
+    "fall_rate": "Fraction of counted benchmark episodes that terminated before normal timeout.",
+    "linear_velocity_rmse_mps": "XY velocity command tracking RMSE in the gravity-aligned robot yaw frame.",
+    "yaw_velocity_rmse_radps": "Yaw angular velocity command tracking RMSE using world-frame angular velocity.",
+    "mean_base_tilt_degrees": "Mean angular deviation from upright computed from projected gravity in the robot base frame.",
+    "joint_limit_violation_rate": "Fraction of joint-time observations whose joint position lies outside the configured soft joint-position limits."
+  }
+}

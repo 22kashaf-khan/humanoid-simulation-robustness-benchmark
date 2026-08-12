@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Virtual environments
+.venv/
+venv/
+env/
+env_isaaclab/
+
+# Auto-generated experiment configs
+configs/generated/
+
+# Multi-seed runs are still being collected
+reports/multiseed/
+
+# Older exploratory outputs generated before final metric cleanup
+reports/friction_sweep/
+reports/mass_sweep/
+reports/baseline_v1_friction_moderate/
+reports/baseline_v1_mass_1_2x/
+reports/fall_validation_low_friction/
+
+# Keep finalized nominal result
+!reports/baseline_v1_nominal/
+!reports/baseline_v1_nominal/results.json

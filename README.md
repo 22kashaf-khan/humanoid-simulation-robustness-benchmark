@@ -56,7 +56,6 @@ The engineering work in this repository is the evaluation and robustness layer b
 - generated machine-readable JSON experiment results
 - built automated plotting utilities
 - added configuration-driven experiments through YAML
-- built resumable multi-seed experiment execution
 - built automated multi-seed robustness experiments with resumable execution
 - implemented statistical aggregation using mean, sample standard deviation, minimum, and maximum across evaluation seeds
 
@@ -280,7 +279,6 @@ The benchmark writes structured `results.json` files so results can be compared 
 
 ## Repository Structure
 
-```text
 Humanoid-Benchmark/
 │
 ├── baseline_checkpoints/
@@ -297,23 +295,28 @@ Humanoid-Benchmark/
 │   └── multiseed_benchmark.yaml
 │
 ├── docs/
+│   ├── multiseed_aggregated_results.json
 │   └── assets/
-│       ├── friction_success_rate.png
-│       └── mass_success_rate.png
+│       ├── multiseed_friction_success_rate.png
+│       ├── multiseed_friction_yaw_rmse.png
+│       ├── multiseed_mass_success_rate.png
+│       ├── multiseed_mass_linear_rmse.png
+│       └── multiseed_mass_joint_limit_violations.png
 │
 ├── reports/
 │   └── baseline_v1_nominal/
 │       └── results.json
 │
 └── scripts/
+    ├── aggregate_multiseed_results.py
     ├── compare_results.py
     ├── plot_friction_sweep.py
     ├── plot_mass_sweep.py
+    ├── plot_multiseed_results.py
     ├── run_friction_sweep.py
     ├── run_mass_sweep.py
     └── run_multiseed_benchmark.py
-```
-
+    
 ## Why This Project
 
 A policy that works under one nominal simulator configuration does not by itself demonstrate robustness.

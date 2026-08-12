@@ -4,6 +4,10 @@ A reproducible robotics simulation and evaluation project for **Unitree H1 human
 
 The project goes beyond training a locomotion policy: it builds an independent benchmark layer around a frozen PPO policy to measure how humanoid behavior changes under controlled **physics and model mismatch**.
 
+### Current benchmark scale
+
+**35 multi-seed simulation runs · 3,500 evaluated episodes · 7 physics conditions · 5 evaluation seeds**
+
 ## Overview
 
 ```text
@@ -53,6 +57,8 @@ The engineering work in this repository is the evaluation and robustness layer b
 - built automated plotting utilities
 - added configuration-driven experiments through YAML
 - built resumable multi-seed experiment execution
+- built automated multi-seed robustness experiments with resumable execution
+- implemented statistical aggregation using mean, sample standard deviation, minimum, and maximum across evaluation seeds
 
 This project is not presented as a new PPO algorithm or a new humanoid model. Its contribution is a **reproducible simulation benchmarking and model-mismatch evaluation framework**.
 
@@ -98,46 +104,122 @@ A successful episode is defined as `survival_to_timeout`: the robot reaches the 
 
 This should be interpreted as a **locomotion survival/stability metric**, not as reaching a navigation goal.
 
+## Multi-Seed Robustness Evaluation
+
+To test whether the observed robustness trends were reproducible rather than specific to a single evaluation seed, the frozen baseline policy was evaluated across:
+
+- **5 evaluation seeds:** 42, 123, 456, 789, 2026
+- **7 physics scenarios**
+- **100 completed episodes per scenario/seed combination**
+- **35 benchmark runs**
+- **3,500 evaluated episodes**
+
+All values below report **mean ± sample standard deviation across the five evaluation seeds**.
+
+The same frozen controller is used in every experiment. Only the simulated physical model is changed.
+
+---
+
 ## Contact-Friction Robustness
 
-The same frozen policy was evaluated under progressively reduced rigid-body contact-friction settings.
+The H1 policy was evaluated under progressively reduced rigid-body contact-friction settings.
 
-![Friction robustness](docs/assets/friction_success_rate.png)
+![Multi-seed friction survival](docs/assets/multiseed_friction_success_rate.png)
 
 | Static / Dynamic Friction | Survival Rate |
 |---|---:|
-| 0.8 / 0.6 | 100% |
-| 0.6 / 0.4 | 100% |
-| 0.4 / 0.3 | 99% |
-| 0.3 / 0.2 | 85% |
-| 0.2 / 0.15 | 0% |
-| 0.1 / 0.1 | 0% |
-| 0.05 / 0.05 | 0% |
+| Nominal (0.8 / 0.6) | **99.8 ± 0.45%** |
+| 0.4 / 0.3 | **99.8 ± 0.45%** |
+| 0.3 / 0.2 | **81.8 ± 4.76%** |
+| 0.2 / 0.15 | **0.0 ± 0.0%** |
 
-The initial sweep shows a clear transition from stable locomotion to severe failure as contact friction is reduced.
+The policy remains highly stable at moderate friction mismatch, but a clear degradation region appears at `0.3 / 0.2`. Under the stronger `0.2 / 0.15` perturbation, all evaluated episodes terminate early across all five seeds.
 
-These values are treated as a **controlled single-seed robustness sweep**, not as an exact physical failure threshold.
+This should be interpreted as an **observed transition region within the tested parameter grid**, rather than an exact physical failure threshold.
+
+### Tracking degradation
+
+Survival alone can hide deterioration in controller performance before complete failure.
+
+![Multi-seed friction yaw RMSE](docs/assets/multiseed_friction_yaw_rmse.png)
+
+Mean yaw-velocity tracking RMSE increased from approximately:
+
+| Static / Dynamic Friction | Yaw RMSE |
+|---|---:|
+| Nominal | **0.141 ± 0.002 rad/s** |
+| 0.4 / 0.3 | **0.173 ± 0.002 rad/s** |
+| 0.3 / 0.2 | **0.310 ± 0.021 rad/s** |
+| 0.2 / 0.15 | **0.684 ± 0.042 rad/s** |
+
+An important observation is that at `0.4 / 0.3`, survival remains essentially unchanged while yaw-tracking error has already increased. This illustrates why robustness evaluation benefits from continuous control-performance metrics in addition to binary survival/failure measurements.
+
+---
 
 ## Mass-Model Mismatch
 
-The benchmark can apply a deterministic multiplier to every rigid body in the H1 articulation while recomputing inertia consistently.
+A second experiment systematically scales every rigid-body mass in the H1 articulation while recomputing inertia, leaving the trained policy unchanged.
 
-This creates a controlled **systematic model mismatch** while keeping the policy unchanged.
+This creates a controlled model mismatch between the dynamics the controller was trained on and the dynamics used during evaluation.
 
-![Mass robustness](docs/assets/mass_success_rate.png)
+![Multi-seed mass survival](docs/assets/multiseed_mass_success_rate.png)
 
 | Whole-Robot Mass Scale | Survival Rate |
 |---|---:|
-| 0.6x | 99% |
-| 0.8x | 100% |
-| 1.0x | 100% |
-| 1.2x | 99% |
-| 1.4x | 86% |
-| 1.6x | 59% |
+| 1.0x nominal | **99.8 ± 0.45%** |
+| 1.2x | **96.6 ± 1.82%** |
+| 1.4x | **85.2 ± 3.77%** |
+| 1.6x | **67.2 ± 5.12%** |
 
-The policy remains highly robust around nominal mass but degrades substantially as the simulated robot becomes heavier.
+Unlike the sharp failure transition observed in the tested friction conditions, mass scaling produces a more gradual degradation over the evaluated range.
 
-The range is intentionally broad and should be interpreted as a **simulation stress test**, not as expected manufacturing tolerance.
+The tested mass range is intentionally broad and represents a **simulation stress test**, not expected manufacturing tolerance.
+
+### Velocity tracking under mass mismatch
+
+![Multi-seed mass linear RMSE](docs/assets/multiseed_mass_linear_rmse.png)
+
+Linear velocity tracking error increased progressively with mass mismatch:
+
+| Whole-Robot Mass Scale | Linear Velocity RMSE |
+|---|---:|
+| 1.0x | **0.086 ± 0.005 m/s** |
+| 1.2x | **0.111 ± 0.015 m/s** |
+| 1.4x | **0.169 ± 0.014 m/s** |
+| 1.6x | **0.248 ± 0.010 m/s** |
+
+The combination of decreasing survival and increasing tracking error shows progressive controller degradation rather than only a binary transition between walking and falling.
+
+### Joint-limit behavior
+
+Mass mismatch also produces a strong increase in joint-limit violations.
+
+![Multi-seed mass joint-limit violations](docs/assets/multiseed_mass_joint_limit_violations.png)
+
+The increased violation rate indicates that larger mass mismatch is associated with the fixed controller operating increasingly close to, or beyond, the configured soft joint limits.
+
+This is an observed association in the benchmark; the experiment does not isolate a single underlying causal mechanism.
+
+---
+
+## Key Findings
+
+Across the tested perturbation ranges:
+
+1. **Contact friction produced a sharper failure transition than uniform mass scaling.**
+
+2. **Controller degradation can appear before the robot starts falling.**  
+   At moderate friction mismatch, survival remained near nominal while yaw-tracking accuracy had already deteriorated.
+
+3. **Mass mismatch produced progressive degradation across multiple metrics.**  
+   Survival decreased while velocity-tracking error and joint-limit violations increased.
+
+4. **The trends were reproducible across five evaluation seeds.**  
+   Error bars represent sample standard deviation across independent evaluation seeds rather than variation within a single run.
+
+The complete aggregated statistics, including base tilt, episode length, fall rate, and all tracking metrics, are available in:
+
+`docs/multiseed_aggregated_results.json`
 
 ## Evaluation Metrics
 

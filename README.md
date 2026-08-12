@@ -277,13 +277,16 @@ python scripts/run_multiseed_benchmark.py --config configs/multiseed_benchmark.y
 
 The benchmark writes structured `results.json` files so results can be compared or processed programmatically.
 
-## Repository Structure
+So the full section should look like:
 
+```markdown
+## Repository Structure
+```texts
 Humanoid-Benchmark/
 │
 ├── baseline_checkpoints/
 │   ├── baseline_v1.pt
-│   └── baseline_v1.yaml
+│   └── sbaseline_v1.yaml
 │
 ├── benchmark/
 │   └── run_benchmark.py
@@ -316,7 +319,7 @@ Humanoid-Benchmark/
     ├── run_friction_sweep.py
     ├── run_mass_sweep.py
     └── run_multiseed_benchmark.py
-    
+
 ## Why This Project
 
 A policy that works under one nominal simulator configuration does not by itself demonstrate robustness.

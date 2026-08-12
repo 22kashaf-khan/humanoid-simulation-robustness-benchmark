@@ -1,0 +1,18 @@
+nominal:
+  success_rate:
+    min: 0.95
+
+  fall_rate:
+    max: 0.05
+
+  linear_velocity_rmse_mps:
+    max: 0.12
+
+  yaw_velocity_rmse_radps:
+    max: 0.20
+
+  mean_base_tilt_degrees:
+    max: 5.0
+
+  joint_limit_violation_rate:
+    max: 0.01

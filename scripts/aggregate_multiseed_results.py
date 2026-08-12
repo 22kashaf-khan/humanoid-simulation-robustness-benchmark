@@ -1,12 +1,16 @@
 import argparse
 import json
+import sys
 from pathlib import Path
-from statistics import mean, stdev
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
+
+from benchmark.aggregation import calculate_statistics
 METRICS = [
     "success_rate",
     "fall_rate",
@@ -37,17 +41,7 @@ def save_json(path, data):
         )
 
 
-def calculate_statistics(values):
-    return {
-        "mean": mean(values),
-        "std": (
-            stdev(values)
-            if len(values) > 1
-            else 0.0
-        ),
-        "min": min(values),
-        "max": max(values),
-    }
+
 
 
 def main():

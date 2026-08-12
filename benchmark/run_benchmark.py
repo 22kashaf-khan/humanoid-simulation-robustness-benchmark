@@ -4,6 +4,14 @@ from pathlib import Path
 
 import yaml
 
+from core import (
+    calculate_episode_rates,
+    calculate_mean,
+    calculate_rmse,
+    classify_termination,
+    validate_config,
+)
+
 from isaaclab.app import AppLauncher
 
 
@@ -17,24 +25,6 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 def load_config(config_path):
     with open(config_path, "r") as file:
         return yaml.safe_load(file)
-
-
-def validate_config(cfg):
-    required_sections = [
-        "experiment",
-        "robot",
-        "policy",
-        "evaluation",
-        "scenario",
-        "metrics",
-        "output",
-    ]
-
-    for section in required_sections:
-        if section not in cfg:
-            raise ValueError(
-                f"Missing required config section: {section}"
-            )
 
 
 # =========================================================
@@ -944,11 +934,18 @@ def main():
                 )
 
 
-                if bool(
-                    time_outs[
-                        idx
-                    ].item()
-                ):
+                termination_type = (
+                    classify_termination(
+                        bool(
+                            time_outs[
+                                idx
+                            ].item()
+                        )
+                    )
+                        )
+
+
+                if termination_type == "success":
 
                     successes += 1
 
@@ -1013,43 +1010,47 @@ def main():
     # Final statistics
     # =====================================================
 
-    success_rate = (
-        successes
-        / completed_episodes
-    )
-
-
-    fall_rate = (
-        falls
-        / completed_episodes
+    success_rate, fall_rate = (
+        calculate_episode_rates(
+            successes,
+            falls,
+        )
     )
 
 
     mean_episode_length = (
-        sum(
-            completed_episode_lengths
-        )
-        / len(
-            completed_episode_lengths
+        calculate_mean(
+            sum(
+                completed_episode_lengths
+            ),
+            len(
+                completed_episode_lengths
+            ),
         )
     )
 
 
     linear_velocity_rmse = (
-        linear_sq_error_sum
-        / linear_error_count
-    ) ** 0.5
+        calculate_rmse(
+            linear_sq_error_sum,
+            linear_error_count,
+        )
+    )
 
 
     yaw_velocity_rmse = (
-        yaw_sq_error_sum
-        / yaw_error_count
-    ) ** 0.5
+        calculate_rmse(
+            yaw_sq_error_sum,
+            yaw_error_count,
+        )
+    )
 
 
     mean_base_tilt_degrees = (
-        base_tilt_sum_degrees
-        / base_tilt_count
+        calculate_mean(
+            base_tilt_sum_degrees,
+            base_tilt_count,
+        )
     )
 
 

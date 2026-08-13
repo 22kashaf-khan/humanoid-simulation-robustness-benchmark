@@ -1,14 +1,62 @@
 # Humanoid Simulation Robustness Benchmark
 
-A reproducible robotics simulation and evaluation project for **Unitree H1 humanoid locomotion in NVIDIA Isaac Lab**.
+A reproducible **robotics simulation validation framework** for Unitree H1 humanoid locomotion in NVIDIA Isaac Lab.
 
-The project evaluates how a frozen locomotion policy behaves when the simulated physical model is deliberately changed. The focus is not on proposing a new PPO algorithm, but on building a **robustness, reproducibility, and regression-testing layer** around an existing humanoid locomotion task.
+I trained and froze an H1 PPO locomotion policy, then built an independent benchmark around it to measure how controller performance changes under controlled **physics and model mismatch**.
 
-## Project Scope
+**35 simulation runs · 3,500 evaluated episodes · 7 physics conditions · 5 evaluation seeds · automated regression tests + CI**
 
-**35 multi-seed simulation runs · 3,500 evaluated episodes · 7 physics conditions · 5 evaluation seeds**
+## What This Project Demonstrates
 
-The baseline policy was trained using the built-in Isaac Lab H1 locomotion task and RSL-RL PPO. The main contribution of this repository is the independent benchmark infrastructure around that policy.
+- GPU-parallel humanoid simulation and PPO training in Isaac Lab
+- independent evaluation infrastructure around a frozen controller
+- controlled contact-friction and whole-robot mass perturbations
+- survival, velocity-tracking, base-tilt, and joint-limit metrics
+- automated multi-seed experiments and statistical aggregation
+- regression thresholds, 41 automated tests, and GitHub Actions CI
+
+## Key Result
+
+The frozen controller remained highly stable under moderate model mismatch, but degradation became measurable before complete failure.
+
+- friction `0.4 / 0.3`: **99.8% survival**, while yaw-tracking error already increased
+- friction `0.3 / 0.2`: survival dropped to **81.8%**
+- friction `0.2 / 0.15`: survival dropped to **0%**
+- mass scaling from `1.0x → 1.6x`: survival decreased from **99.8% → 67.2%**
+
+This project treats simulation as an **engineering validation and regression-testing environment**, not only as a place to train an RL policy.
+
+## Benchmark Architecture
+
+```mermaid
+flowchart TD
+    A[Unitree H1<br/>Isaac Lab] --> B[PPO Training<br/>RSL-RL]
+    B --> C[Frozen Baseline Policy]
+
+    C --> D[Independent Benchmark Runner]
+
+    D --> E[Nominal Physics]
+    D --> F[Contact-Friction Perturbation]
+    D --> G[Whole-Robot Mass Perturbation]
+
+    E --> H[Episode Evaluation]
+    F --> H
+    G --> H
+
+    H --> I[Survival / Fall Rate]
+    H --> J[Velocity RMSE]
+    H --> K[Base Tilt]
+    H --> L[Joint-Limit Violations]
+
+    I --> M[Multi-Seed Aggregation]
+    J --> M
+    K --> M
+    L --> M
+
+    M --> N[Robustness Plots + JSON Results]
+    M --> O[Regression Thresholds]
+    O --> P[Automated Tests + GitHub CI]
+```
 
 ### Provided by Isaac Lab / RSL-RL
 

@@ -34,7 +34,7 @@ def validate_physics_modifications(modifications):
     Supported values:
     - None
     - "none"
-    - dictionary containing friction and/or mass_scale
+    - dictionary containing friction, mass_scale, and/or actuator_effort_scale
     """
 
     if (
@@ -104,6 +104,25 @@ def validate_physics_modifications(modifications):
         if mass_scale <= 0:
             raise ValueError(
                 "mass_scale must be greater than zero"
+            )
+
+    actuator_effort_scale = modifications.get(
+        "actuator_effort_scale"
+    )
+
+    if actuator_effort_scale is not None:
+        try:
+            actuator_effort_scale = float(
+                actuator_effort_scale
+            )
+        except (TypeError, ValueError):
+            raise ValueError(
+                "actuator_effort_scale must be numeric"
+            )
+
+        if actuator_effort_scale <= 0:
+            raise ValueError(
+                "actuator_effort_scale must be greater than zero"
             )
 
 

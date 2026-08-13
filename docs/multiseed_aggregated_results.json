@@ -4,8 +4,8 @@
     "aggregation": "mean, sample standard deviation, minimum, maximum across evaluation seeds",
     "standard_deviation": "sample standard deviation (n-1)"
   },
-  "total_runs": 35,
-  "scenario_count": 7,
+  "total_runs": 55,
+  "scenario_count": 11,
   "scenarios": {
     "nominal": {
       "physics_modifications": "none",
@@ -410,6 +410,234 @@
           "std": 0.00020742735643036509,
           "min": 0.03719335663696715,
           "max": 0.037682759650723034
+        }
+      }
+    },
+    "actuator_effort_0_5x": {
+      "physics_modifications": {
+        "actuator_effort_scale": 0.5
+      },
+      "num_seeds": 5,
+      "seeds": [
+        42,
+        123,
+        456,
+        789,
+        2026
+      ],
+      "metrics": {
+        "success_rate": {
+          "mean": 0.986,
+          "std": 0.005477225575051666,
+          "min": 0.98,
+          "max": 0.99
+        },
+        "fall_rate": {
+          "mean": 0.014,
+          "std": 0.005477225575051661,
+          "min": 0.01,
+          "max": 0.02
+        },
+        "mean_episode_length": {
+          "mean": 989.926,
+          "std": 4.917904025090359,
+          "min": 984.08,
+          "max": 996.48
+        },
+        "linear_velocity_rmse_mps": {
+          "mean": 0.09349040361013745,
+          "std": 0.0030801327198507773,
+          "min": 0.08915425437323879,
+          "max": 0.09766716785696908
+        },
+        "yaw_velocity_rmse_radps": {
+          "mean": 0.14334151038928428,
+          "std": 0.001488157265009892,
+          "min": 0.14115616902399775,
+          "max": 0.1452150150098989
+        },
+        "mean_base_tilt_degrees": {
+          "mean": 3.050446185146951,
+          "std": 0.03459635915976882,
+          "min": 3.011837672191161,
+          "max": 3.106626928224908
+        },
+        "joint_limit_violation_rate": {
+          "mean": 0.0017512259943672696,
+          "std": 8.974552197240264e-05,
+          "min": 0.0016479058918973735,
+          "max": 0.001845427031815162
+        }
+      }
+    },
+    "actuator_effort_0_4x": {
+      "physics_modifications": {
+        "actuator_effort_scale": 0.4
+      },
+      "num_seeds": 5,
+      "seeds": [
+        42,
+        123,
+        456,
+        789,
+        2026
+      ],
+      "metrics": {
+        "success_rate": {
+          "mean": 0.868,
+          "std": 0.0626099033699941,
+          "min": 0.79,
+          "max": 0.95
+        },
+        "fall_rate": {
+          "mean": 0.132,
+          "std": 0.06260990336999411,
+          "min": 0.05,
+          "max": 0.21
+        },
+        "mean_episode_length": {
+          "mean": 900.55,
+          "std": 44.13384698845095,
+          "min": 852.17,
+          "max": 964.89
+        },
+        "linear_velocity_rmse_mps": {
+          "mean": 0.14005800423408002,
+          "std": 0.012347858693919432,
+          "min": 0.1239358642158073,
+          "max": 0.1545404111351869
+        },
+        "yaw_velocity_rmse_radps": {
+          "mean": 0.1813194502641457,
+          "std": 0.011348439168170223,
+          "min": 0.16586676669320688,
+          "max": 0.19246968995082636
+        },
+        "mean_base_tilt_degrees": {
+          "mean": 3.3607991673444304,
+          "std": 0.17755542063002272,
+          "min": 3.157111430114038,
+          "max": 3.6199929427066526
+        },
+        "joint_limit_violation_rate": {
+          "mean": 0.005482220121916645,
+          "std": 0.0005892269458374639,
+          "min": 0.004766837343335019,
+          "max": 0.006327499516713677
+        }
+      }
+    },
+    "actuator_effort_0_375x": {
+      "physics_modifications": {
+        "actuator_effort_scale": 0.375
+      },
+      "num_seeds": 5,
+      "seeds": [
+        42,
+        123,
+        456,
+        789,
+        2026
+      ],
+      "metrics": {
+        "success_rate": {
+          "mean": 0.616,
+          "std": 0.03847076812334272,
+          "min": 0.57,
+          "max": 0.67
+        },
+        "fall_rate": {
+          "mean": 0.384,
+          "std": 0.03847076812334268,
+          "min": 0.33,
+          "max": 0.43
+        },
+        "mean_episode_length": {
+          "mean": 713.1179999999999,
+          "std": 35.87328351294318,
+          "min": 669.66,
+          "max": 750.75
+        },
+        "linear_velocity_rmse_mps": {
+          "mean": 0.1971330451931281,
+          "std": 0.00584578456776875,
+          "min": 0.19167715845056846,
+          "max": 0.20670363131102715
+        },
+        "yaw_velocity_rmse_radps": {
+          "mean": 0.24421057724955939,
+          "std": 0.01316593989593351,
+          "min": 0.23177647073879507,
+          "max": 0.2626056473936336
+        },
+        "mean_base_tilt_degrees": {
+          "mean": 4.104388728353475,
+          "std": 0.11683208630183915,
+          "min": 3.970229710068577,
+          "max": 4.208448974383339
+        },
+        "joint_limit_violation_rate": {
+          "mean": 0.013475856421371465,
+          "std": 0.0006717323844846663,
+          "min": 0.012679951627320048,
+          "max": 0.014264897976506537
+        }
+      }
+    },
+    "actuator_effort_0_35x": {
+      "physics_modifications": {
+        "actuator_effort_scale": 0.35
+      },
+      "num_seeds": 5,
+      "seeds": [
+        42,
+        123,
+        456,
+        789,
+        2026
+      ],
+      "metrics": {
+        "success_rate": {
+          "mean": 0.38,
+          "std": 0.026457513110645908,
+          "min": 0.35,
+          "max": 0.42
+        },
+        "fall_rate": {
+          "mean": 0.62,
+          "std": 0.02645751311064593,
+          "min": 0.58,
+          "max": 0.65
+        },
+        "mean_episode_length": {
+          "mean": 509.74,
+          "std": 9.576351079612728,
+          "min": 496.19,
+          "max": 521.42
+        },
+        "linear_velocity_rmse_mps": {
+          "mean": 0.27613993226786976,
+          "std": 0.007137841068965482,
+          "min": 0.26965694803771245,
+          "max": 0.2878159282353924
+        },
+        "yaw_velocity_rmse_radps": {
+          "mean": 0.32743868833866824,
+          "std": 0.012506062685335382,
+          "min": 0.311926572248903,
+          "max": 0.34178857032360194
+        },
+        "mean_base_tilt_degrees": {
+          "mean": 5.387401431807096,
+          "std": 0.08599445071716443,
+          "min": 5.253569491172791,
+          "max": 5.483163805364849
+        },
+        "joint_limit_violation_rate": {
+          "mean": 0.030962468417085644,
+          "std": 0.0004838288120077866,
+          "min": 0.030246450671604863,
+          "max": 0.03152124451478158
         }
       }
     }

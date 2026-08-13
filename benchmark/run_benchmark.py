@@ -282,6 +282,49 @@ def apply_scenario_physics(
         )
 
 
+    # =====================================================
+    # Whole-robot actuator effort-limit scaling
+    # =====================================================
+
+    actuator_effort_scale = modifications.get(
+        "actuator_effort_scale"
+    )
+
+    if actuator_effort_scale is not None:
+
+        actuator_effort_scale = float(
+            actuator_effort_scale
+        )
+
+        for actuator_name, actuator_cfg in (
+            env_cfg.scene.robot.actuators.items()
+        ):
+            original_limit = (
+                actuator_cfg.effort_limit_sim
+            )
+
+            if original_limit is None:
+                continue
+
+            actuator_cfg.effort_limit_sim = (
+                original_limit
+                * actuator_effort_scale
+            )
+
+            print(
+                f"[Scenario] Actuator '{actuator_name}' "
+                f"effort limit: "
+                f"{original_limit} -> "
+                f"{actuator_cfg.effort_limit_sim}"
+            )
+
+        print(
+            "[Scenario] Whole-robot actuator "
+            "effort-limit scale applied: "
+            f"{actuator_effort_scale}x"
+        )
+
+
 # =========================================================
 # Main benchmark
 # =========================================================
@@ -401,6 +444,20 @@ def main():
         task,
         cfg=env_cfg,
     )
+
+    runtime_robot = env.unwrapped.scene["robot"]
+
+    print("\n[Runtime actuator verification]")
+
+    for actuator_name, actuator in runtime_robot.actuators.items():
+        unique_limits = torch.unique(
+            actuator.effort_limit_sim
+        ).detach().cpu().tolist()
+
+        print(
+            f"{actuator_name}: "
+            f"effort_limit_sim={unique_limits}"
+        )
 
 
     env = RslRlVecEnvWrapper(

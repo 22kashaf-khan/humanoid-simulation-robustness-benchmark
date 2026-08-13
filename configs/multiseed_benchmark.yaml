@@ -54,3 +54,20 @@ scenarios:
   - name: mass_1_6x
     physics_modifications:
       mass_scale: 1.6
+
+
+  - name: actuator_effort_0_5x
+    physics_modifications:
+      actuator_effort_scale: 0.5
+
+  - name: actuator_effort_0_4x
+    physics_modifications:
+      actuator_effort_scale: 0.4
+
+  - name: actuator_effort_0_375x
+    physics_modifications:
+      actuator_effort_scale: 0.375
+
+  - name: actuator_effort_0_35x
+    physics_modifications:
+      actuator_effort_scale: 0.35

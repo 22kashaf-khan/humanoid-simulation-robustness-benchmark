@@ -147,6 +147,25 @@ def test_valid_mass_scale_passes():
         }
     )
 
+def test_valid_actuator_effort_scale_passes():
+    validate_physics_modifications(
+        {
+            "actuator_effort_scale": 0.8,
+        }
+    )
+
+
+def test_invalid_actuator_effort_scale_fails():
+    with pytest.raises(
+        ValueError,
+        match="actuator_effort_scale must be greater than zero",
+    ):
+        validate_physics_modifications(
+            {
+                "actuator_effort_scale": 0,
+            }
+        )
+
 
 def test_invalid_physics_type_fails():
     with pytest.raises(

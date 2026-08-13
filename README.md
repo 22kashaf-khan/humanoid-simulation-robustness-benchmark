@@ -57,6 +57,14 @@ flowchart TD
     M --> O[Regression Thresholds]
     O --> P[Automated Tests + GitHub CI]
 ```
+## Simulation Demo
+
+### Nominal H1 Locomotion
+
+The frozen PPO policy running in NVIDIA Isaac Lab across parallel Unitree H1 environments.
+
+![Unitree H1 PPO locomotion](docs/assets/h1_nominal_demo.gif)
+
 
 ### Provided by Isaac Lab / RSL-RL
 

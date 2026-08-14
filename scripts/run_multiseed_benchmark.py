@@ -138,9 +138,10 @@ def create_run_config(
     output_directory = (
         Path("reports")
         / "multiseed"
+        / master_cfg["experiment"]["name"]
         / scenario_name
         / f"seed_{seed}"
-    )
+    )   
 
 
     run_config = {
@@ -517,9 +518,7 @@ def main():
             # =============================================
 
             result_path = (
-                REPORT_ROOT
-                / scenario_name
-                / f"seed_{seed}"
+                Path(run_cfg["output"]["directory"])
                 / "results.json"
             )
 
@@ -625,6 +624,7 @@ def main():
 
             progress_path = (
                 REPORT_ROOT
+                / master_cfg["experiment"]["name"]
                 / "raw_results.json"
             )
 
@@ -699,6 +699,7 @@ def main():
 
     combined_output_path = (
         REPORT_ROOT
+        / master_cfg["experiment"]["name"]
         / "raw_results.json"
     )
 

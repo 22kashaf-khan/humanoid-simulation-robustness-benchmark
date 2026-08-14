@@ -553,6 +553,8 @@ def main():
 
     joint_limit_violation_count = 0
     joint_limit_observation_count = 0
+    mechanical_power_sum_w = 0.0
+    mechanical_power_count = 0
 
 
     # =====================================================
@@ -612,6 +614,19 @@ def main():
         num_envs,
         device=device,
         dtype=torch.long,
+    )
+
+
+    episode_mechanical_power_sum_w = torch.zeros(
+    num_envs,
+    device=device,
+    dtype=torch.float32,
+    )
+
+    episode_mechanical_power_count = torch.zeros(
+    num_envs,
+    device=device,
+    dtype=torch.long,
     )
 
 
@@ -822,6 +837,32 @@ def main():
 
 
         # =================================================
+        # Mechanical actuator power
+        # =================================================
+
+        applied_torque = (
+            robot.data.applied_torque
+        )
+
+        joint_velocity = (
+            robot.data.joint_vel
+        )
+
+        mechanical_power_w = torch.sum(
+            torch.abs(
+                applied_torque
+                * joint_velocity
+            ),
+            dim=1,
+        )
+
+        episode_mechanical_power_sum_w += (
+            mechanical_power_w
+        )
+
+        episode_mechanical_power_count += 1
+
+        # =================================================
         # Policy and simulation step
         # =================================================
 
@@ -972,6 +1013,28 @@ def main():
 
 
             # -------------------------------------------------
+            # Commit mechanical-power metrics
+            # -------------------------------------------------
+
+            mechanical_power_sum_w += (
+                episode_mechanical_power_sum_w[
+                    counted_indices
+                ]
+                .sum()
+                .item()
+            )
+
+            mechanical_power_count += int(
+                episode_mechanical_power_count[
+                    counted_indices
+                ]
+                .sum()
+                .item()
+            )
+
+
+
+            # -------------------------------------------------
             # Success / fall classification
             # -------------------------------------------------
 
@@ -1062,6 +1125,14 @@ def main():
                 done_indices
             ] = 0
 
+            episode_mechanical_power_sum_w[
+                done_indices
+            ] = 0.0
+
+            episode_mechanical_power_count[
+                done_indices
+            ] = 0
+
 
     # =====================================================
     # Final statistics
@@ -1114,6 +1185,13 @@ def main():
     joint_limit_violation_rate = (
         joint_limit_violation_count
         / joint_limit_observation_count
+    )
+
+    mean_mechanical_power_w = (
+        calculate_mean(
+            mechanical_power_sum_w,
+            mechanical_power_count,
+        )
     )
 
 
@@ -1247,6 +1325,10 @@ def main():
             "joint_limit_observation_count": (
                 joint_limit_observation_count
             ),
+
+            "mean_mechanical_power_w": (
+                mean_mechanical_power_w
+            ),
         },
 
         "metric_definitions": {
@@ -1281,6 +1363,13 @@ def main():
                 "Fraction of joint-time observations "
                 "whose joint position lies outside the "
                 "configured soft joint-position limits."
+            ),
+
+            "mean_mechanical_power_w": (
+                "Mean whole-robot absolute simulated "
+                "mechanical actuator power, computed as "
+                "the sum across joints of absolute applied "
+                "torque multiplied by joint velocity."
             ),
         },
     }
@@ -1377,6 +1466,10 @@ def main():
         f"{joint_limit_violation_rate:.4%}"
     )
 
+    print(
+        f"Mean mechanical power      : "
+        f"{mean_mechanical_power_w:.2f} W"
+    )
 
     print(
         f"Vector steps               : "

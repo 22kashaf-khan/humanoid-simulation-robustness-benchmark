@@ -1,0 +1,264 @@
+{
+  "experiment": "phase11_ab_power_regularized",
+  "statistics": {
+    "aggregation": "mean, sample standard deviation, minimum, maximum across evaluation seeds",
+    "standard_deviation": "sample standard deviation (n-1)"
+  },
+  "total_runs": 20,
+  "scenario_count": 4,
+  "scenarios": {
+    "nominal": {
+      "physics_modifications": "none",
+      "num_seeds": 5,
+      "seeds": [
+        42,
+        123,
+        456,
+        789,
+        2026
+      ],
+      "metrics": {
+        "success_rate": {
+          "mean": 0.998,
+          "std": 0.004472135954999583,
+          "min": 0.99,
+          "max": 1.0
+        },
+        "fall_rate": {
+          "mean": 0.002,
+          "std": 0.00447213595499958,
+          "min": 0.0,
+          "max": 0.01
+        },
+        "mean_episode_length": {
+          "mean": 998.36,
+          "std": 3.6671514830996754,
+          "min": 991.8,
+          "max": 1000.0
+        },
+        "linear_velocity_rmse_mps": {
+          "mean": 0.08966722071496344,
+          "std": 0.002445091893014327,
+          "min": 0.0876357502349257,
+          "max": 0.09370648892629865
+        },
+        "yaw_velocity_rmse_radps": {
+          "mean": 0.13675553539963167,
+          "std": 0.0007520020826804465,
+          "min": 0.13552833987105103,
+          "max": 0.13753856880946613
+        },
+        "mean_base_tilt_degrees": {
+          "mean": 3.795866795967953,
+          "std": 0.049786749266146714,
+          "min": 3.7578749173397643,
+          "max": 3.8801271875
+        },
+        "joint_limit_violation_rate": {
+          "mean": 0.0056114066715488055,
+          "std": 0.0002556727308807615,
+          "min": 0.005222296515638764,
+          "max": 0.005892631578947368
+        },
+        "mean_mechanical_power_w": {
+          "mean": 135.8287236501374,
+          "std": 1.3527866518284992,
+          "min": 134.46018825068688,
+          "max": 137.749815
+        }
+      }
+    },
+    "friction_0_3_0_2": {
+      "physics_modifications": {
+        "friction": {
+          "static": 0.3,
+          "dynamic": 0.2
+        }
+      },
+      "num_seeds": 5,
+      "seeds": [
+        42,
+        123,
+        456,
+        789,
+        2026
+      ],
+      "metrics": {
+        "success_rate": {
+          "mean": 0.46,
+          "std": 0.08774964387392124,
+          "min": 0.35,
+          "max": 0.53
+        },
+        "fall_rate": {
+          "mean": 0.54,
+          "std": 0.08774964387392124,
+          "min": 0.47,
+          "max": 0.65
+        },
+        "mean_episode_length": {
+          "mean": 548.81,
+          "std": 53.72512354569321,
+          "min": 479.38,
+          "max": 595.78
+        },
+        "linear_velocity_rmse_mps": {
+          "mean": 0.11796238949807489,
+          "std": 0.009816352282131647,
+          "min": 0.1081062344184676,
+          "max": 0.13111522767891443
+        },
+        "yaw_velocity_rmse_radps": {
+          "mean": 0.3724914088465291,
+          "std": 0.025115455302883737,
+          "min": 0.35490915156738473,
+          "max": 0.41140556249440285
+        },
+        "mean_base_tilt_degrees": {
+          "mean": 6.520081529169897,
+          "std": 0.3025901674579167,
+          "min": 6.278957020292398,
+          "max": 7.033369322235719
+        },
+        "joint_limit_violation_rate": {
+          "mean": 0.011602301551970295,
+          "std": 0.0013645558967939962,
+          "min": 0.01062914427967936,
+          "max": 0.013978581984185714
+        },
+        "mean_mechanical_power_w": {
+          "mean": 200.6781372242313,
+          "std": 13.00456105051359,
+          "min": 190.0581125989774,
+          "max": 222.2681377263992
+        }
+      }
+    },
+    "mass_1_4x": {
+      "physics_modifications": {
+        "mass_scale": 1.4
+      },
+      "num_seeds": 5,
+      "seeds": [
+        42,
+        123,
+        456,
+        789,
+        2026
+      ],
+      "metrics": {
+        "success_rate": {
+          "mean": 0.708,
+          "std": 0.05495452665613635,
+          "min": 0.63,
+          "max": 0.78
+        },
+        "fall_rate": {
+          "mean": 0.292,
+          "std": 0.05495452665613634,
+          "min": 0.22,
+          "max": 0.37
+        },
+        "mean_episode_length": {
+          "mean": 820.466,
+          "std": 28.91056779103448,
+          "min": 780.74,
+          "max": 852.35
+        },
+        "linear_velocity_rmse_mps": {
+          "mean": 0.19784438865505719,
+          "std": 0.007927874393588092,
+          "min": 0.19080367167494103,
+          "max": 0.20987488790579756
+        },
+        "yaw_velocity_rmse_radps": {
+          "mean": 0.2847833470144969,
+          "std": 0.01985325418493879,
+          "min": 0.2608249825089293,
+          "max": 0.3129383751455864
+        },
+        "mean_base_tilt_degrees": {
+          "mean": 6.442501016685704,
+          "std": 0.06855513629060335,
+          "min": 6.333825625591197,
+          "max": 6.524066968729687
+        },
+        "joint_limit_violation_rate": {
+          "mean": 0.06774909952675796,
+          "std": 0.0009951170638918727,
+          "min": 0.0668118493865114,
+          "max": 0.06943480072212192
+        },
+        "mean_mechanical_power_w": {
+          "mean": 134.5761574840338,
+          "std": 2.4030027621478154,
+          "min": 131.63143079802495,
+          "max": 137.54453941820614
+        }
+      }
+    },
+    "actuator_effort_0_4x": {
+      "physics_modifications": {
+        "actuator_effort_scale": 0.4
+      },
+      "num_seeds": 5,
+      "seeds": [
+        42,
+        123,
+        456,
+        789,
+        2026
+      ],
+      "metrics": {
+        "success_rate": {
+          "mean": 0.946,
+          "std": 0.015165750888103085,
+          "min": 0.93,
+          "max": 0.97
+        },
+        "fall_rate": {
+          "mean": 0.054,
+          "std": 0.015165750888103102,
+          "min": 0.03,
+          "max": 0.07
+        },
+        "mean_episode_length": {
+          "mean": 974.946,
+          "std": 7.623170600216148,
+          "min": 966.57,
+          "max": 986.4
+        },
+        "linear_velocity_rmse_mps": {
+          "mean": 0.11994339198771634,
+          "std": 0.0024803107585477414,
+          "min": 0.11760276701920189,
+          "max": 0.12385328887845595
+        },
+        "yaw_velocity_rmse_radps": {
+          "mean": 0.18584281168468395,
+          "std": 0.006944437453762224,
+          "min": 0.17710383951520114,
+          "max": 0.19349204768132364
+        },
+        "mean_base_tilt_degrees": {
+          "mean": 5.225922419425755,
+          "std": 0.08985693074223866,
+          "min": 5.146548345585906,
+          "max": 5.377129181466099
+        },
+        "joint_limit_violation_rate": {
+          "mean": 0.024330624864738803,
+          "std": 0.0005283306152574122,
+          "min": 0.023900533456546393,
+          "max": 0.02508817124906683
+        },
+        "mean_mechanical_power_w": {
+          "mean": 140.52570597783313,
+          "std": 3.368732070399674,
+          "min": 136.23164236744728,
+          "max": 145.05845868800242
+        }
+      }
+    }
+  }
+}

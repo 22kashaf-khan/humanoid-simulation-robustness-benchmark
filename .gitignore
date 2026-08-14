@@ -30,3 +30,11 @@ reports/fall_validation_low_friction/
 # Keep finalized nominal result
 !reports/baseline_v1_nominal/
 !reports/baseline_v1_nominal/results.json
+
+# Training runs / TensorBoard / intermediate checkpoints
+logs/
+
+# Phase 11 temporary smoke and single-seed evaluation outputs
+reports/phase11_ab/
+reports/smoke_power_baselines/
+reports/smoke_power_regularized/

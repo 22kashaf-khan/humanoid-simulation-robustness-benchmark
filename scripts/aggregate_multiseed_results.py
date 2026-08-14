@@ -19,6 +19,7 @@ METRICS = [
     "yaw_velocity_rmse_radps",
     "mean_base_tilt_degrees",
     "joint_limit_violation_rate",
+    "mean_mechanical_power_w",
 ]
 
 

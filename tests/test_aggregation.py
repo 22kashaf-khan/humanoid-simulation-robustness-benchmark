@@ -57,3 +57,27 @@ def test_statistics_empty_values_fail():
         match="At least one value is required",
     ):
         calculate_statistics([])
+
+
+def test_statistics_mechanical_power_values():
+    power_values_w = [
+        238.0,
+        241.0,
+        242.0,
+        245.0,
+        246.0,
+    ]
+
+    stats = calculate_statistics(
+        power_values_w
+    )
+
+    assert stats["mean"] == pytest.approx(242.4)
+    assert stats["min"] == pytest.approx(238.0)
+    assert stats["max"] == pytest.approx(246.0)
+
+    # calculate_statistics uses sample standard deviation.
+    assert stats["std"] == pytest.approx(
+        3.209361,
+        rel=1e-5,
+    )
